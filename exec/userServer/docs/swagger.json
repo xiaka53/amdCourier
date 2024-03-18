@@ -1,0 +1,13 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "amdCourier-userServer",
+        "title": "amdCourier-userServer",
+        "contact": {
+            "name": "陶然"
+        },
+        "license": {},
+        "version": "1.0"
+    },
+    "paths": {}
+}

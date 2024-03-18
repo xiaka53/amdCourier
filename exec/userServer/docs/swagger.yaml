@@ -1,0 +1,9 @@
+info:
+  contact:
+    name: 陶然
+  description: amdCourier-userServer
+  license: {}
+  title: amdCourier-userServer
+  version: "1.0"
+paths: {}
+swagger: "2.0"
