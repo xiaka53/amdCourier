@@ -1,6 +1,7 @@
 package router
 
 import (
+	"amdCourier/middleware"
 	"amdCourier/server"
 	"context"
 	"github.com/gin-gonic/gin"
@@ -16,7 +17,8 @@ var (
 
 // 启动服务
 func HttpServerRun() {
-	switch os.Getenv("GOLANG_SERVER_USERSERVER_DEBUG") {
+	model := os.Getenv("GOLANG_SERVER_USERSERVER_DEBUG")
+	switch model {
 	case "test":
 		gin.SetMode(gin.TestMode)
 	case "release":
@@ -25,7 +27,7 @@ func HttpServerRun() {
 		gin.SetMode(gin.DebugMode)
 	}
 
-	r := InitRouter()
+	r := InitRouter(middleware.RecoverMiddleware(model), middleware.AccessMiddleware())
 	HttpSrvHandler = &http.Server{
 		Addr:           os.Getenv("GOLANG_SERVER_USERSERVER_ADDR"),
 		Handler:        r,

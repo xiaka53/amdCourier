@@ -3,10 +3,9 @@ package router
 import (
 	_ "amdCourier/exec/userServer/docs"
 	"amdCourier/exec/userServer/dto"
-	"amdCourier/exec/userServer/middleware"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
 
 // 路由初始化
@@ -17,8 +16,6 @@ func InitRouter(middlewares ...gin.HandlerFunc) (router *gin.Engine) {
 	router.Use(middlewares...)
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	router.Use(middleware.RecoverMiddleware(), middleware.IPAuthMiddleware())
-	router.Use(middleware.AccessMiddleware()) // 跨域
 
 	return
 }
