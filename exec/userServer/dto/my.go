@@ -6,7 +6,7 @@ import (
 )
 
 type OperateAddress struct {
-	Mark     int    `form:"mark" json:"mark" validate:"omitempty,min=1" zh:"标识"`
+	Mark     uint   `form:"mark" json:"mark" validate:"omitempty,min=1" zh:"标识"`
 	Province string `form:"province" json:"province" validate:"min=1" zh:"省"`
 	City     string `form:"city" json:"city" validate:"min=1" zh:"市"`
 	Region   string `form:"region" json:"region" validate:"min=1" zh:"区"`

@@ -2,6 +2,7 @@ package api
 
 import (
 	"amdCourier/dao"
+	"amdCourier/exec/userServer/dto"
 	"amdCourier/middleware"
 	"errors"
 	"github.com/gin-gonic/gin"
@@ -106,5 +107,41 @@ type my_addressList struct {
 // @Success 200 {string} "success"
 // @Router /my/operateAddress [Post]
 func (m my) operateAddress(c *gin.Context) {
-
+	var (
+		user      dao.User
+		parameter dto.OperateAddress
+		address   dao.Address
+		err       error
+	)
+	if err = (&parameter).BindingValidParams(c); err != nil {
+		middleware.ResponseError(c, middleware.ParamerErr, err)
+	}
+	user.Id = c.GetUint("uuid")
+	if user.Id < 1 {
+		middleware.ResponseError(c, middleware.NoLoginCode, errors.New("未登陆"))
+	}
+	if parameter.Mark > 0 {
+		address.Id = parameter.Mark
+		if err = (&address).First(); err != nil {
+			middleware.ResponseError(c, middleware.ParamerErr, errors.New("未登陆"))
+		}
+		if address.Uid != user.Id {
+			middleware.ResponseError(c, middleware.InternalErrorCode, errors.New("异常操作"))
+		}
+	}
+	address = dao.Address{
+		Uid:      user.Id,
+		Name:     parameter.Name,
+		Phone:    parameter.Phone,
+		Province: parameter.Province,
+		City:     parameter.City,
+		Region:   parameter.Region,
+		Address:  parameter.Address,
+		Def:      parameter.Def,
+		Del:      false,
+	}
+	if err = (&address).Create(); err != nil {
+		middleware.ResponseError(c, middleware.InternalErrorCode, err)
+	}
+	middleware.ResponseSuccess(c, "操作成功")
 }

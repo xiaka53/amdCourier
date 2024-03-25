@@ -40,6 +40,12 @@ func (a *Address) Find() (data []Address, err error) {
 }
 
 func (a *Address) Create() error {
+	// TODO 地址追踪查询
+	if a.Id > 0 {
+		if err := a.Conn().Where("id=?", a.Id).Updates(a).Error; err != nil {
+			return err
+		}
+	}
 	a.DeletedAt = nil
 	return a.Conn().Create(a).Error
 }
